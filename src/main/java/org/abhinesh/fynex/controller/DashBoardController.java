@@ -1,10 +1,7 @@
 package org.abhinesh.fynex.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.abhinesh.fynex.dto.CategorySummary;
-import org.abhinesh.fynex.dto.DashboardSummaryResponse;
-import org.abhinesh.fynex.dto.FinancialRecordResponse;
-import org.abhinesh.fynex.dto.MonthlyTrendyResponse;
+import org.abhinesh.fynex.dto.*;
 import org.abhinesh.fynex.services.DashboardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,49 +22,54 @@ public class DashBoardController {
     // Full Summary - Analyst and Admin
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('ADMIN','ANALYST')")
-    public ResponseEntity<DashboardSummaryResponse> getSummary() {
-        return ResponseEntity.ok(dashboardService.getSummary());
+    public ResponseEntity<ApiResponse<DashboardSummaryResponse>> getSummary() {
+        return ResponseEntity.ok(ApiResponse.success("Dashboard summary fetched", dashboardService.getSummary()));
     }
 
     // Total income — ANALYST and ADMIN
     @GetMapping("/income")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
-    public ResponseEntity<BigDecimal> getTotalIncome() {
-        return ResponseEntity.ok(dashboardService.getTotalIncome());
+    public ResponseEntity<ApiResponse<BigDecimal>> getTotalIncome() {
+        return ResponseEntity.ok(ApiResponse.success("Total income fetched", dashboardService.getTotalIncome()));
     }
 
     // Total expenses — ANALYST and ADMIN
     @GetMapping("/expenses")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
-    public ResponseEntity<BigDecimal> getTotalExpenses() {
-        return ResponseEntity.ok(dashboardService.getTotalExpenses());
+    public ResponseEntity<ApiResponse<BigDecimal>> getTotalExpenses() {
+        return ResponseEntity.ok(ApiResponse.success("Total expenses fetched",
+                dashboardService.getTotalExpenses()));
     }
 
     // Net balance — ANALYST and ADMIN
     @GetMapping("/balance")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
-    public ResponseEntity<BigDecimal> getNetBalance() {
-        return ResponseEntity.ok(dashboardService.getNetBalance());
+    public ResponseEntity<ApiResponse<BigDecimal>> getNetBalance() {
+        return ResponseEntity.ok(ApiResponse.success("Net balance fetched",
+                dashboardService.getNetBalance()));
     }
 
     // Category wise totals — ANALYST and ADMIN
     @GetMapping("/categories")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
-    public ResponseEntity<List<CategorySummary>> getCategoryWiseTotals() {
-        return ResponseEntity.ok(dashboardService.getCategoryWiseTotals());
+    public ResponseEntity<ApiResponse<List<CategorySummary>>> getCategoryWiseTotals() {
+        return ResponseEntity.ok(ApiResponse.success("Category totals fetched",
+                dashboardService.getCategoryWiseTotals()));
     }
 
     // Recent transactions — ALL roles
     @GetMapping("/recent")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST', 'VIEWER')")
-    public ResponseEntity<List<FinancialRecordResponse>> getRecentTransactions() {
-        return ResponseEntity.ok(dashboardService.getRecentTransactions());
+    public ResponseEntity<ApiResponse<List<FinancialRecordResponse>>> getRecentTransactions() {
+        return ResponseEntity.ok(ApiResponse.success("Recent transactions fetched",
+                dashboardService.getRecentTransactions()));
     }
 
     // Monthly trends — ANALYST and ADMIN
     @GetMapping("/trends")
     @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
-    public ResponseEntity<List<MonthlyTrendyResponse>> getMonthlyTrends() {
-        return ResponseEntity.ok(dashboardService.getMonthlyTrends());
+    public ResponseEntity<ApiResponse<List<MonthlyTrendyResponse>>> getMonthlyTrends() {
+        return ResponseEntity.ok(ApiResponse.success("Monthly trends fetched",
+                dashboardService.getMonthlyTrends()));
     }
 }

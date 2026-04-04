@@ -5,6 +5,7 @@ import org.abhinesh.fynex.dto.AuthResponse;
 import org.abhinesh.fynex.dto.LoginRequest;
 import org.abhinesh.fynex.dto.RegisterRequest;
 import org.abhinesh.fynex.entity.User;
+import org.abhinesh.fynex.exception.DuplicateResourceException;
 import org.abhinesh.fynex.repository.UserRepository;
 import org.abhinesh.fynex.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,10 +23,10 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request){
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered");
+            throw new DuplicateResourceException("Email already registered");
         }
         if (userRepository.existsByUsername(request.getUsername())){
-            throw new RuntimeException("Username already taken");
+            throw new DuplicateResourceException("Username already taken");
         }
 
         User user = User.builder()

@@ -7,6 +7,7 @@ import org.abhinesh.fynex.dto.FinancialRecordResponse;
 import org.abhinesh.fynex.entity.FinancialRecord;
 import org.abhinesh.fynex.entity.User;
 import org.abhinesh.fynex.enums.TransactionType;
+import org.abhinesh.fynex.exception.ResourceNotFoundException;
 import org.abhinesh.fynex.repository.FinancialRecordRepository;
 import org.abhinesh.fynex.repository.UserRepository;
 import org.abhinesh.fynex.security.SecurityUtils;
@@ -98,7 +99,7 @@ public class FinancialRecordService {
     private FinancialRecord findActiveRecord(Long id){
         return recordRepository.findById(id)
                 .filter(r -> !r.isDeleted())
-                .orElseThrow(() -> new RuntimeException("Record not found with id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Record not found with id : " + id));
     }
 
     private FinancialRecordResponse mapToResponse(FinancialRecord record){
